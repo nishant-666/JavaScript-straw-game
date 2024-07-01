@@ -1,6 +1,5 @@
 const randomStraws = document.getElementById("random-straws");
 const container = document.getElementById("container");
-const strawLine = document.querySelectorAll(".straw-line");
 const playerName = document.getElementById("input-box");
 const startBtn = document.getElementById("start-btn");
 const score = document.getElementById("score");
@@ -36,42 +35,36 @@ function generateStraws(index) {
   strawLine.style.top = `${randomPositionTop}rem`;
   strawLine.style.rotate = `${randomRotation}deg`;
   strawLine.style.zIndex = randomZIndex;
+  strawLine.addEventListener("click", onClickStraw);
 
   return strawLine;
 }
 
 function generateMultipleStraws() {
+  container.innerHTML = ""; // Clear previous straws if any
+  strawsArray = [];
+
   for (let i = 0; i < strawThreshold; i++) {
     let straw = generateStraws(i);
-    strawsArray.push(straw.outerHTML);
+    strawsArray.push(straw);
+    container.appendChild(straw);
   }
-
-  container.appendChild(strawsArray);
 }
 
-document.addEventListener("click", (event) => {
-  onClickStraw(event);
-});
-
 function onClickStraw(event) {
-  const idString = `id="${event.target.id}"`;
-  const currentZIndex = event.target.style.zIndex;
+  const straw = event.target;
+  straw.remove();
 
-  const currentStraw = strawsArray.filter((item) => item.includes(idString));
-
-  for (let i = 0; i < strawsArray.length; i++) {
-    if (strawsArray[i] === currentStraw[0]) {
-      strawsArray.splice(i, 1);
-      playerScore++;
-      score.textContent = `Score: ${playerScore}`;
-    }
+  const index = strawsArray.indexOf(straw);
+  if (index > -1) {
+    strawsArray.splice(index, 1);
+    playerScore++;
+    score.textContent = `Score: ${playerScore}`;
   }
-  const innerDiv = document.getElementById("random-straws");
-  innerDiv.innerHTML = strawsArray.map((s) => s).join("");
-  container.append(innerDiv);
 
   if (strawThreshold === playerScore) {
     console.log("Game Over");
+    gameOverScreen.style.display = "block"; // Display game over screen
   }
 }
 
