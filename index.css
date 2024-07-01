@@ -1,0 +1,29 @@
+.container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.random-straws {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 40rem;
+
+  position: relative;
+  margin-top: 5rem;
+}
+
+.straw-line {
+  height: 0.2rem;
+
+  position: absolute;
+  cursor: pointer;
+}
+
+.player-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
